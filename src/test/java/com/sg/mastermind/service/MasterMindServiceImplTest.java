@@ -1,10 +1,10 @@
-package com.mthree.mastermind.service;
+package com.sg.mastermind.service;
 
-import com.mthree.mastermind.data.GameDao;
-import com.mthree.mastermind.data.RoundDao;
-import com.mthree.mastermind.model.Game;
-import com.mthree.mastermind.model.Round;
-import com.mthree.mastermind.service.exception.GameNotFoundException;
+import com.sg.mastermind.data.interfaces.GameDao;
+import com.sg.mastermind.data.interfaces.RoundDao;
+import com.sg.mastermind.model.Game;
+import com.sg.mastermind.model.Round;
+import com.sg.mastermind.service.exception.GameNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,25 +50,24 @@ public class MasterMindServiceImplTest {
     }
 
     @Test
-    public void getFinishedGameById() throws GameNotFoundException {
+    public void testCalculateResults1() {
         //ARRANGE
-        // Create our  game
-        Game game = new Game();
-        game.setAnswer(1254);
-        game.setFinished(false);
+        int guess = 2635;
+        int answer = 2547;
 
-        gameDao.addGame(game);
-        Game unsolvedGame = service.getFinishedGameById(game.getId());
+        String result = service.calculateResults(guess, answer);
 
+        assertEquals("e:1:p:1", result);
+    }
 
-        assertNull("This is unsolved game! It should be null.", unsolvedGame);
-
+    @Test
+    public void testCalculateResults2() {
         //ARRANGE
-        // update our  game
-        game.setFinished(true);
-        gameDao.updateGame(game);
-        Game solvedGame = service.getFinishedGameById(game.getId());
-
-        assertNotNull("This is solved game! It should be not null.", solvedGame);
+        int guess = 7894;
+        int answer = 7894;
+        //ACT
+        String result = service.calculateResults(guess, answer);
+        //ARRANGE
+        assertEquals("e:4:p:0", result);
     }
 }

@@ -1,6 +1,6 @@
-package com.mthree.mastermind.data;
+package com.sg.mastermind.data.interfaces;
 
-import com.mthree.mastermind.model.Game;
+import com.sg.mastermind.model.Game;
 
 import java.util.List;
 

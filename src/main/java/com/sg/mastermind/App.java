@@ -1,4 +1,4 @@
-package com.mthree.mastermind;
+package com.sg.mastermind;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

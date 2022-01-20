@@ -1,7 +1,8 @@
-package com.mthree.mastermind.data;
+package com.sg.mastermind.data;
 
-import com.mthree.mastermind.model.Game;
-import com.mthree.mastermind.model.Round;
+import com.sg.mastermind.data.interfaces.RoundDao;
+import com.sg.mastermind.model.Game;
+import com.sg.mastermind.model.Round;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,26 +22,11 @@ public class RoundDaoDB implements RoundDao {
     }
 
     @Override
-    public List<Round> getRoundsByGame(Game game) {
+    public List<Round> getRoundsByGameId(int gameId) {
         final String SELECT_ROUNDS_BY_GAME = "SELECT r.* FROM round r WHERE gameId = ? ";
         List<Round> rounds = jdbcTemplate.query(SELECT_ROUNDS_BY_GAME,
-                new RoundMapper(), game.getId());
-
-        addGameToRounds(rounds);
+                new RoundMapper(), gameId);
         return rounds;
-    }
-
-    private void addGameToRounds(List<Round> rounds) {
-        for (Round round : rounds) {
-            round.setGame(getGameForRound(round));
-        }
-    }
-
-    private Game getGameForRound(Round round) {
-        final String SELECT_GAME_FOR_ROUND = "SELECT g.* FROM game g "
-                + "JOIN round r ON g.gameId = r.gameId WHERE r.roundId = ?";
-        return jdbcTemplate.queryForObject(SELECT_GAME_FOR_ROUND, new GameDaoDB.GameMapper(),
-                round.getId());
     }
 
     @Override
@@ -57,7 +43,7 @@ public class RoundDaoDB implements RoundDao {
             statement.setObject(1, Timestamp.valueOf(round.getTimeAttempt()));
             statement.setInt(2, round.getGuess());
             statement.setString(3, round.getResult());
-            statement.setInt(4, round.getGame().getId());
+            statement.setInt(4, round.getGameId());
             return statement;
 
         }, keyHolder);
@@ -82,12 +68,13 @@ public class RoundDaoDB implements RoundDao {
 
         @Override
         public Round mapRow(ResultSet rs, int index) throws SQLException {
-            Round rm = new Round();
-            rm.setId(rs.getInt("roundId"));
-            rm.setTimeAttempt(rs.getTimestamp("timeAttempt").toLocalDateTime());
-            rm.setGuess(rs.getInt("guess"));
-            rm.setResult(rs.getString("result"));
-            return rm;
+            Round round = new Round();
+            round.setId(rs.getInt("roundId"));
+            round.setTimeAttempt(rs.getTimestamp("timeAttempt").toLocalDateTime());
+            round.setGuess(rs.getInt("guess"));
+            round.setResult(rs.getString("result"));
+            round.setGameId(rs.getInt("gameId"));
+            return round;
         }
     }
 }

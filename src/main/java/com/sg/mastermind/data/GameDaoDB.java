@@ -1,6 +1,7 @@
-package com.mthree.mastermind.data;
+package com.sg.mastermind.data;
 
-import com.mthree.mastermind.model.Game;
+import com.sg.mastermind.data.interfaces.GameDao;
+import com.sg.mastermind.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -86,11 +87,11 @@ public class GameDaoDB implements GameDao {
 
         @Override
         public Game mapRow(ResultSet rs, int index) throws SQLException {
-            Game rm = new Game();
-            rm.setId(rs.getInt("gameId"));
-            rm.setAnswer(rs.getInt("answer"));
-            rm.setFinished(rs.getBoolean("finished"));
-            return rm;
+            Game game = new Game();
+            game.setId(rs.getInt("gameId"));
+            game.setAnswer(rs.getInt("answer"));
+            game.setFinished(rs.getBoolean("finished"));
+            return game;
         }
     }
 

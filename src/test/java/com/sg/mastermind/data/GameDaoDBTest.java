@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mthree.mastermind.data;
+package com.sg.mastermind.data;
 
-import com.mthree.mastermind.model.Game;
-import com.mthree.mastermind.model.Round;
+import com.sg.mastermind.data.interfaces.GameDao;
+import com.sg.mastermind.data.interfaces.RoundDao;
+import com.sg.mastermind.model.Game;
+import com.sg.mastermind.model.Round;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -27,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * @author ASUS
+ * @author Wafa Mekki
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -141,7 +141,7 @@ public class GameDaoDBTest {
         round.setTimeAttempt(LocalDateTime.now());
         round.setGuess(1254);
         round.setResult("e:4:p:0");
-        round.setGame(game);
+        round.setGameId(game.getId());
         round = roundDao.addRound(round);
 
         //ACT
@@ -151,7 +151,5 @@ public class GameDaoDBTest {
         gameDao.deleteGameById(game.getId());
         fromDao = gameDao.getGameById(game.getId());
         assertNull(fromDao);
-
-
     }
 }

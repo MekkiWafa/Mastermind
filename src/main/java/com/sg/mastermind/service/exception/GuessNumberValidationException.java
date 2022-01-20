@@ -1,4 +1,4 @@
-package com.mthree.mastermind.service.exception;
+package com.sg.mastermind.service.exception;
 
 public class GuessNumberValidationException extends Exception {
 

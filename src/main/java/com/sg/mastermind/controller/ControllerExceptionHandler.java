@@ -1,7 +1,7 @@
-package com.mthree.mastermind.controller;
+package com.sg.mastermind.controller;
 
-import com.mthree.mastermind.service.exception.GameNotFoundException;
-import com.mthree.mastermind.service.exception.GuessNumberValidationException;
+import com.sg.mastermind.service.exception.GameNotFoundException;
+import com.sg.mastermind.service.exception.GuessNumberValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,7 +20,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request) {
 
         Error err = new Error();
-        err.setMessage("The game is not found for this Id");
+        err.setMessage("The game is not found for this Id!");
         return new ResponseEntity<>(err, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
@@ -31,7 +31,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
             WebRequest request) {
 
         Error err = new Error();
-        err.setMessage("The guess must be a 4-digit number with no duplicate digits");
+        err.setMessage("The guess must be a 4-digit number with no duplicate digits!");
         return new ResponseEntity<>(err, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
